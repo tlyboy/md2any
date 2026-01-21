@@ -1,0 +1,196 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'katex/dist/katex.min.css';
+@plugin '@tailwindcss/typography';
+@source '../node_modules/streamdown/dist/*.js';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body {
+  height: 100%;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 9%;
+  --primary: 0 0% 13%;
+  --primary-foreground: 0 0% 97%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 13%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 35%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 13%;
+  --destructive: 0 84% 60%;
+  --border: 0 0% 91%;
+  --input: 0 0% 91%;
+  --ring: 0 0% 44%;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+  --sidebar: 0 0% 98%;
+  --sidebar-foreground: 0 0% 9%;
+  --sidebar-primary: 0 0% 13%;
+  --sidebar-primary-foreground: 0 0% 97%;
+  --sidebar-accent: 0 0% 96%;
+  --sidebar-accent-foreground: 0 0% 13%;
+  --sidebar-border: 0 0% 91%;
+  --sidebar-ring: 0 0% 44%;
+}
+
+.dark {
+  --background: 0 0% 9%;
+  --foreground: 0 0% 97%;
+  --card: 0 0% 13%;
+  --card-foreground: 0 0% 97%;
+  --popover: 0 0% 13%;
+  --popover-foreground: 0 0% 97%;
+  --primary: 0 0% 91%;
+  --primary-foreground: 0 0% 13%;
+  --secondary: 0 0% 17%;
+  --secondary-foreground: 0 0% 97%;
+  --muted: 0 0% 17%;
+  --muted-foreground: 0 0% 44%;
+  --accent: 0 0% 17%;
+  --accent-foreground: 0 0% 97%;
+  --destructive: 0 63% 31%;
+  --border: 0 0% 17%;
+  --input: 0 0% 17%;
+  --ring: 0 0% 35%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+  --sidebar: 0 0% 13%;
+  --sidebar-foreground: 0 0% 97%;
+  --sidebar-primary: 220 70% 50%;
+  --sidebar-primary-foreground: 0 0% 97%;
+  --sidebar-accent: 0 0% 17%;
+  --sidebar-accent-foreground: 0 0% 97%;
+  --sidebar-border: 0 0% 17%;
+  --sidebar-ring: 0 0% 35%;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+  }
+}
+
+/* shiki 双主题支持 - 深色模式使用 --shiki-dark 变量 */
+.dark [data-streamdown='code-block'] pre code span {
+  color: var(--shiki-dark) !important;
+}
+
+/* prose 不应该覆盖代码颜色 */
+.prose pre code {
+  color: inherit;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+/* 代码块圆角和边框 */
+[data-streamdown='code-block'] {
+  border-radius: calc(var(--radius) - 2px);
+  overflow: hidden;
+}
+
+/* 隐藏代码块末尾的空行 */
+[data-streamdown='code-block-body'] code > span:last-child {
+  &:not(:has(span)),
+  &:has(> span:only-child:empty) {
+    @apply hidden;
+  }
+}
+
+/* 导出时隐藏 CSS 伪元素行号（由 JS 添加真实元素替代） */
+[data-streamdown='code-block-body'] code > span[style*='--hide-line-number']::before {
+  content: none !important;
+}
+
+/* 引用块样式 */
+[data-streamdown='blockquote'] {
+  border-left-width: 4px;
+}

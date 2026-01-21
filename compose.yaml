@@ -1,0 +1,6 @@
+services:
+  md2img:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 3000:3000
