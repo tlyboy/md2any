@@ -98,7 +98,36 @@ function restoreAfterExport(state: {
   })
 }
 
+async function waitForRender(element: HTMLDivElement, timeout = 10000): Promise<void> {
+  const mermaidBlocks = Array.from(element.querySelectorAll('[data-streamdown="mermaid-block"]'))
+  if (mermaidBlocks.length === 0) return
+
+  const isRendered = (block: Element) => !!block.querySelector('[data-streamdown="mermaid"]')
+
+  if (mermaidBlocks.every(isRendered)) return
+
+  const scrollContainer = element.closest('.overflow-auto') as HTMLElement | null
+  if (!scrollContainer) return
+
+  const savedScroll = scrollContainer.scrollTop
+
+  // Scroll to bottom to bring all lazy-loaded content into view
+  scrollContainer.scrollTop = scrollContainer.scrollHeight
+  await new Promise((r) => setTimeout(r, 500))
+
+  // Restore scroll position
+  scrollContainer.scrollTop = savedScroll
+
+  // Wait until all mermaid blocks are fully rendered
+  const start = Date.now()
+  while (Date.now() - start < timeout) {
+    if (mermaidBlocks.every(isRendered)) return
+    await new Promise((r) => setTimeout(r, 200))
+  }
+}
+
 async function capturePngBlob(element: HTMLDivElement): Promise<Blob | null> {
+  await waitForRender(element)
   const state = prepareForExport(element)
   try {
     return await toBlob(element, getExportOptions())
@@ -108,6 +137,7 @@ async function capturePngBlob(element: HTMLDivElement): Promise<Blob | null> {
 }
 
 async function captureJpegBlob(element: HTMLDivElement): Promise<Blob | null> {
+  await waitForRender(element)
   const state = prepareForExport(element)
   try {
     const dataUrl = await toJpeg(element, { ...getExportOptions(), quality: 0.92 })

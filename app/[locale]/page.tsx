@@ -114,7 +114,7 @@ export default function Home(): React.ReactNode {
   const previewRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="fixed inset-0 flex flex-col overflow-hidden">
       <header className="flex items-center justify-between border-b px-3 py-2 md:px-4">
         <h1 className="text-lg font-semibold">md2any</h1>
         <div className="flex items-center gap-2">
