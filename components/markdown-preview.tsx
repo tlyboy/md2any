@@ -6,6 +6,9 @@ import { Streamdown } from 'streamdown'
 import { createMathPlugin } from '@streamdown/math'
 import { createCodePlugin } from '@streamdown/code'
 import { createMermaidPlugin } from '@streamdown/mermaid'
+import rehypeRaw from 'rehype-raw'
+import { rehypeCustomSlug } from '@/lib/rehype-custom-slug'
+import { LinkSafetyModal } from '@/components/link-safety-modal'
 import type { BundledTheme } from 'shiki'
 
 interface MarkdownPreviewProps {
@@ -16,6 +19,8 @@ const mathPlugin = createMathPlugin({ singleDollarTextMath: true })
 const codePlugin = createCodePlugin({
   themes: ['vitesse-light', 'vitesse-dark'] as [BundledTheme, BundledTheme],
 })
+
+const rehypePlugins = [rehypeRaw, rehypeCustomSlug]
 
 export const MarkdownPreview = forwardRef<HTMLDivElement, MarkdownPreviewProps>(
   function MarkdownPreview({ content }, ref) {
@@ -36,6 +41,17 @@ export const MarkdownPreview = forwardRef<HTMLDivElement, MarkdownPreviewProps>(
           <Streamdown
             mode="static"
             plugins={{ math: mathPlugin, code: codePlugin, mermaid: mermaidPlugin }}
+            rehypePlugins={rehypePlugins}
+            linkSafety={{
+              enabled: true,
+              onLinkCheck: (url) => {
+                if (url.startsWith('/') || url.startsWith('#')) {
+                  return true
+                }
+                return false
+              },
+              renderModal: (props) => <LinkSafetyModal {...props} />,
+            }}
           >
             {content}
           </Streamdown>

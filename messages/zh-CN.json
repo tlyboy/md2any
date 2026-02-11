@@ -15,5 +15,11 @@
   },
   "theme": {
     "toggle": "切换深色模式"
+  },
+  "linkSafety": {
+    "title": "打开外部链接？",
+    "description": "即将访问外部网站",
+    "copyLink": "复制链接",
+    "openLink": "打开链接"
   }
 }
